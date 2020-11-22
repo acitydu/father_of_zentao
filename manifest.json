@@ -16,7 +16,7 @@
     {
       "matches": ["http://ztpm.goldwind.com.cn:9898/*"],
       "css": ["main.css"],
-      "js": ["main.js"]
+      "js": ["main.js", "render.js", "jquery.min.js"]
     }
   ]
 }

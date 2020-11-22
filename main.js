@@ -1,6 +1,6 @@
 /**
  * Created by A ciTy on 2020/11/21.
- * Description:
+ * Description:入口
  */
 
 window.onload = function () {
@@ -49,6 +49,10 @@ async function taskViewStrategy() {
     const storyInfo = await fetchInfo(storyUrl);
 
     console.log('storyInfo', storyInfo);
+
+    // render.js中的方法
+    renderStoryRemark(storyInfo);
+
 }
 
 function fetchInfo(taskUrl) {
