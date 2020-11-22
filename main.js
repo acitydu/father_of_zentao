@@ -10,7 +10,7 @@ window.onload = function () {
 function init() {
     const strategy = getStrategy();
 
-    strategy();
+    strategy && strategy();
 }
 
 function getStrategy() {
@@ -24,7 +24,7 @@ function getStrategy() {
             break;
 
         default :
-            result = taskViewStrategy;
+            result = null;
     }
 
     return result;
