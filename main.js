@@ -47,6 +47,7 @@ async function taskViewStrategy() {
 
     // render.js中的方法
     renderStoryRemark(storyInfo);
+    renderTaskListOfStory(storyInfo);
 
 }
 
