@@ -14,17 +14,12 @@ function init() {
 }
 
 function getStrategy() {
-    let result;
+    let result = null;
 
-    switch (location.href) {
-        case location.href.indexOf('task-view') >= 0 :
+    if (location.href.indexOf('task-view') >= 0) {
 
-            result = taskViewStrategy;
+        result = taskViewStrategy;
 
-            break;
-
-        default :
-            result = null;
     }
 
     return result;
