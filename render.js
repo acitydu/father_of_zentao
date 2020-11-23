@@ -39,7 +39,7 @@ class StoryRemarkRenderer extends Renderer {
     getRemarkList(storyInfo) {
         // 只过滤出手动添加的备注
         const remarkList = Object.keys(storyInfo.actions).map(actionKey => storyInfo.actions[actionKey]).filter(item => item.action === 'commented');
-        console.log(remarkList);
+        // console.log(remarkList);
 
         return remarkList;
     }
@@ -100,7 +100,7 @@ class TaskListOfStoryRender extends Renderer {
         }));*/
         taskList.sort((a, b) => Number(b.id) - Number(a.id));
 
-        console.log(taskList);
+        // console.log(taskList);
 
         return taskList;
     }
