@@ -37,17 +37,17 @@ async function taskViewStrategy() {
 
     const taskInfo = await fetchInfo(taskUrl);
 
-    // console.log('taskInfo', taskInfo);
+    console.log('taskInfo', taskInfo);
 
     const storyUrl = `http://ztpm.goldwind.com.cn:9898/pro/story-view-${taskInfo.task.storyID}.json`;
 
     const storyInfo = await fetchInfo(storyUrl);
 
-    // console.log('storyInfo', storyInfo);
+    console.log('storyInfo', storyInfo);
 
     // render.js中的方法
     renderStoryRemark(storyInfo);
-    renderTaskListOfStory(storyInfo);
+    renderTaskListOfStory(storyInfo, taskInfo);
 
 }
 

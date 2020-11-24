@@ -68,10 +68,11 @@ function renderStoryRemark(storyInfo) {
 }
 
 class TaskListOfStoryRender extends Renderer {
-    constructor({storyInfo}) {
+    constructor({storyInfo, taskInfo}) {
         super();
 
         this.storyInfo = storyInfo;
+        this.currentTaskInfo = taskInfo;
         this.divInsertAfter = this.getDivInsertAfter();
         this.taskList = this.getTaskList(this.storyInfo);
         this.insertHtml = this.getInsertHtml(this.taskList);
@@ -98,6 +99,9 @@ class TaskListOfStoryRender extends Renderer {
             const taskInfo = await fetchInfo(taskUrl);
 
         }));*/
+
+        taskList = taskList.filter(item => item.id !== this.currentTaskInfo.task.id);
+
         taskList.sort((a, b) => Number(b.id) - Number(a.id));
 
         // console.log(taskList);
@@ -146,14 +150,14 @@ class TaskListOfStoryRender extends Renderer {
     }
 }
 
-function renderTaskListOfStory(storyInfo) {
+function renderTaskListOfStory(storyInfo, taskInfo) {
     if (!storyInfo || !storyInfo.actions) {
         console.warn('renderTaskListOfStory error', storyInfo);
 
         return;
     }
 
-    let taskListOfStoryRenderer = new TaskListOfStoryRender({storyInfo});
+    let taskListOfStoryRenderer = new TaskListOfStoryRender({storyInfo, taskInfo});
 
     taskListOfStoryRenderer.render();
 }
