@@ -21,6 +21,11 @@ function getStrategy() {
         result = taskViewStrategy;
 
     }
+    else if (location.href.indexOf('story-view') >= 0) {
+
+        result = storyViewStrategy;
+
+    }
 
     return result;
 
@@ -48,6 +53,20 @@ async function taskViewStrategy() {
     // render.js中的方法
     renderStoryRemark(storyInfo);
     renderTaskListOfStory(storyInfo, taskInfo);
+
+}
+
+async function storyViewStrategy(){
+
+    const currentUrl = location.href;
+
+    const storyUrl = currentUrl.replace(/.html/, ".json");
+
+    const storyInfo = await fetchInfo(storyUrl);
+
+    console.log('storyInfo', storyInfo);
+
+    renderCreateTaskBtn(storyInfo.story);
 
 }
 

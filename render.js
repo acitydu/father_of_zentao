@@ -161,3 +161,49 @@ function renderTaskListOfStory(storyInfo, taskInfo) {
 
     taskListOfStoryRenderer.render();
 }
+
+class CreateTaskBtnRender extends Renderer{
+    constructor({storyInfo}) {
+        super();
+
+        this.storyInfo = storyInfo;
+        this.divInsertAfter = this.getDivInsertAfter();
+        this.insertHtml = this.getInsertHtml(this.storyInfo);
+    }
+
+    getDivInsertAfter() {
+        // 验收标准的div
+        return $('#titlebar .actions .btn-group').eq(0);
+    }
+
+    getInsertHtml(storyInfo) {
+
+        const projects = storyInfo.projects;
+
+        if(!projects || !(projects instanceof Object)){
+            console.warn('CreateTaskBtnRender error in getInsertHtml', storyInfo);
+        }
+
+        const projectID = Object.keys(projects)[0];
+
+        // join是为了去除逗号
+        return `<a style='position: relative;' href='/pro/task-create-${projectID}-${storyInfo.id}-0.html' class='btn btn-primary'><i class='icon icon-plus'></i>建任务<span style='display:inline-block;position: absolute;transform: scale(0.6);bottom:-7px;left:-23px'>（Powered by FOZ）</span></a>`
+
+    }
+
+    render() {
+        $(this.insertHtml).insertAfter(this.divInsertAfter);
+    }
+}
+
+function renderCreateTaskBtn(storyInfo) {
+    if (!storyInfo) {
+        console.warn('renderCreateTaskBtn error in', storyInfo);
+
+        return;
+    }
+
+    let createTaskBtnRenderer = new CreateTaskBtnRender({storyInfo});
+
+    createTaskBtnRenderer.render();
+}
