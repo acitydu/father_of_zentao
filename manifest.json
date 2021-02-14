@@ -1,22 +1,29 @@
 {
-  "manifest_version": 2,
-
-  "name": "Father of Zentao",
-  "description": "",
-  "version": "1.0",
-
-  "permissions": [
-    "http://ztpm.goldwind.com.cn:9898/*"
-  ],
-  "browser_action": {
-    "default_icon": "icon.png",
-    "default_popup": "popup.html"
-  },
-  "content_scripts": [
-    {
-      "matches": ["http://ztpm.goldwind.com.cn:9898/*"],
-      "css": ["main.css"],
-      "js": ["main.js", "render.js", "jquery.min.js"]
-    }
-  ]
+    "manifest_version": 2,
+    "name": "Father of Zentao",
+    "description": "",
+    "version": "1.1",
+    "permissions": [
+        "http://ztpm.goldwind.com.cn:9898/*"
+    ],
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://ztpm.goldwind.com.cn:9898/*"
+            ],
+            "css": [
+                "main.css"
+            ],
+            "js": [
+                "main.js",
+                "render.js",
+                "jquery.min.js"
+            ],
+            "all_frames": true
+        }
+    ]
 }

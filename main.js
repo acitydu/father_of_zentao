@@ -26,6 +26,16 @@ function getStrategy() {
         result = storyViewStrategy;
 
     }
+    /*else if (location.href.indexOf('bug-view') >= 0) {
+
+        result = bugViewStrategy;
+
+    }*/
+    else if (location.href.indexOf('bug-resolve') >= 0) {
+
+        result = bugResolveStrategy;
+
+    }
 
     return result;
 
@@ -68,6 +78,50 @@ async function storyViewStrategy(){
 
     renderCreateTaskBtn(storyInfo.story);
 
+}
+
+/*async function bugViewStrategy(){
+
+    const currentUrl = location.href;
+
+    const bugUrl = currentUrl.replace(/.html/, ".json");
+
+    const bugInfo = await fetchInfo(bugUrl);
+
+    console.log('bugInfo', bugInfo);
+
+    const btns = $('#titlebar .actions a.btn');
+
+    // dom列表不是array
+    const resolveBtn = [...new Set(btns)].find(btn => {
+        console.log(btn.innerHTML)
+        return btn.innerHTML && btn.innerHTML.indexOf('解决') >= 0
+    });
+
+    $(resolveBtn).click(function (e){
+        bugResolveBtnClick(e, bugInfo);
+    });
+
+    console.log('bugInfo', bugInfo);
+
+}*/
+
+async function bugResolveStrategy(){
+    const currentUrl = location.href;
+
+    const bugUrl = currentUrl.replace(/.html/, ".json");
+
+    const myTaskListUrl = 'http://ztpm.goldwind.com.cn:9898/pro/my-task-assignedTo.json';
+
+    const bugInfo = await fetchInfo(bugUrl);
+
+    const myTaskList = await fetchInfo(myTaskListUrl);
+
+    console.log('bugInfo', bugInfo, 'myTaskList', myTaskList);
+
+    const resolveBugTaskList = myTaskList.tasks.filter(task => task.status ==='doing' && task.subType === 'bug_rep_devel');
+
+    renderBugResolveTime(bugInfo, resolveBugTaskList);
 }
 
 function fetchInfo(taskUrl) {

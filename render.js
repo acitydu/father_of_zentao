@@ -88,7 +88,7 @@ class TaskListOfStoryRender extends Renderer {
 
         let taskList = [];
 
-        for(let projectId in storyInfo.story.tasks){
+        for (let projectId in storyInfo.story.tasks) {
             taskList = taskList.concat(storyInfo.story.tasks[projectId]);
         }
 
@@ -144,7 +144,7 @@ class TaskListOfStoryRender extends Renderer {
         // join是为了去除逗号
         return `<fieldset class="fozContainer">
             <legend>同需求的任务（Powered by FOZ）</legend>
-            <ol>${taskList.map(item => '<li><span style="color:'+ (statusMap[item.status] ? statusMap[item.status].color : '#000') +'">' + (statusMap[item.status] ? statusMap[item.status].text : item.status) + ' &nbsp;&nbsp;</span><a target="_blank" href="'+ getTaskHref(item.id) +'">#' + item.id + ' ' + item.name+' 【' + users[item.assignedTo] + '】</a></li>').join('')}</ol>
+            <ol>${taskList.map(item => '<li><span style="color:' + (statusMap[item.status] ? statusMap[item.status].color : '#000') + '">' + (statusMap[item.status] ? statusMap[item.status].text : item.status) + ' &nbsp;&nbsp;</span><a target="_blank" href="' + getTaskHref(item.id) + '">#' + item.id + ' ' + item.name + ' 【' + users[item.assignedTo] + '】</a></li>').join('')}</ol>
         </fieldset>`
 
     }
@@ -162,7 +162,7 @@ function renderTaskListOfStory(storyInfo, taskInfo) {
     taskListOfStoryRenderer.render();
 }
 
-class CreateTaskBtnRender extends Renderer{
+class CreateTaskBtnRender extends Renderer {
     constructor({storyInfo}) {
         super();
 
@@ -180,7 +180,7 @@ class CreateTaskBtnRender extends Renderer{
 
         const projects = storyInfo.projects;
 
-        if(!projects || !(projects instanceof Object)){
+        if (!projects || !(projects instanceof Object)) {
             console.warn('CreateTaskBtnRender error in getInsertHtml', storyInfo);
         }
 
@@ -198,7 +198,7 @@ class CreateTaskBtnRender extends Renderer{
 
 function renderCreateTaskBtn(storyInfo) {
     if (!storyInfo) {
-        console.warn('renderCreateTaskBtn error in', storyInfo);
+        console.warn('renderCreateTaskBtn error', storyInfo);
 
         return;
     }
@@ -206,4 +206,47 @@ function renderCreateTaskBtn(storyInfo) {
     let createTaskBtnRenderer = new CreateTaskBtnRender({storyInfo});
 
     createTaskBtnRenderer.render();
+}
+
+class BugResolveTimeRender extends Renderer {
+    constructor({bugInfo, resolveBugTaskList}) {
+        super();
+
+        this.bugInfo = bugInfo;
+        this.resolveBugTaskList =resolveBugTaskList;
+        this.divInsertAfter = this.getDivInsertAfter();
+        this.insertHtml = this.getInsertHtml(this.resolveBugTaskList);
+    }
+
+    getDivInsertAfter() {
+        // 验收标准的div
+        return $('.form-condensed tbody tr').eq($('.form-condensed tbody tr').length - 2);
+    }
+
+    getInsertHtml(resolveBugTaskList) {
+
+        // join是为了去除逗号
+        return `<tr>
+      <th class="w-100px">工时</th>
+      <td class="w-p45-f">启用：<input value="recordResolveBugTime" type="checkbox"/><div style="display: inline-block;padding-left: 10px">消缺任务：</div><select name="resolution" id="resolution" class="form-control" onchange="setDuplicate(this.value)" style="display: inline-block;width:calc(100% - 120px)">${resolveBugTaskList.map(item => '<option value="' + item.id + '">' + item.name + '</option>').join('')}</select></td>
+      <td style="padding-left: 15px;"><div style="display: inline-block">工时（小时）：</div><input class="form-control" type="number" min="1" step="1" style="display: inline-block;width: calc(100% - 100px)"></td>
+    </tr>`
+
+    }
+
+    render() {
+        $(this.insertHtml).insertAfter(this.divInsertAfter);
+    }
+}
+
+function renderBugResolveTime(bugInfo, resolveBugTaskList) {
+    if (!bugInfo || !resolveBugTaskList) {
+        console.warn('renderCreateTaskBtn error', bugInfo);
+
+        return;
+    }
+
+    let bugResolveTimeRender = new BugResolveTimeRender({bugInfo, resolveBugTaskList});
+
+    bugResolveTimeRender.render();
 }
